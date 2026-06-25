@@ -1,0 +1,337 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+const featured = projects;
+
+const siteUrl = 'https://cesaramoranb.web.app';
+const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: 'César Morán',
+      alternateName: 'Cesar Amoran B',
+      url: siteUrl,
+      email: 'xcesamoranb@gmail.com',
+      sameAs: ['https://linkedin.com/in/cesaramoranb'],
+      jobTitle: 'Full Stack Developer & AI Systems Architect',
+      description: 'Ingeniero de Sistemas especializado en agentes de IA, automatización de procesos y desarrollo full stack con Python, Django, React, N8N, Vapi y Botpress.',
+      knowsAbout: ['Python', 'Django', 'React', 'N8N', 'Vapi AI', 'Botpress', 'Docker', 'Rust', 'SQL', 'Flask', 'Spring Boot', 'AI Agents', 'Process Automation', 'CRM Integration'],
+      image: `${siteUrl}/profile.jpeg`,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: 'César Morán — Portfolio',
+      description: 'Portfolio profesional de César Morán, Full Stack Developer y Arquitecto de Agentes IA.',
+      author: { '@id': `${siteUrl}/#person` },
+      inLanguage: ['es', 'en'],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/#webpage`,
+      url: siteUrl,
+      name: 'César Morán — Full Stack Developer & AI Systems Architect',
+      description: 'Portfolio de César Morán — Desarrollador Full Stack y Arquitecto de Agentes de IA. Especialista en Python, Django, React, N8N, Vapi, Botpress y automatización de procesos.',
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      about: { '@id': `${siteUrl}/#person` },
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${siteUrl}/#projects`,
+      name: 'Proyectos — César Morán',
+      itemListElement: projects.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: p.title,
+        ...(p.link && { url: p.link }),
+      })),
+    },
+  ],
+};
+---
+
+<Layout
+  title="César Morán — Full Stack Developer & AI Systems Architect"
+  description="Portfolio de César Morán — Desarrollador Full Stack y Arquitecto de Agentes de IA. Especialista en Python, Django, React, N8N, Vapi, Botpress y automatización de procesos para empresas reales."
+  keywords="César Morán, full stack developer, AI systems architect, agentes IA, Python, Django, React, N8N, Vapi AI, Botpress, automatización, Docker, Rust, portfolio desarrollador"
+  canonicalPath="/"
+  schema={homeSchema}
+>
+  <section id="hero" role="banner">
+    <svg
+      id="hero-sunburst"
+      viewBox="0 0 1200 900"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <rect width="1200" height="900" fill="#111111" />
+      <g id="sunburst-rays"></g>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-stars" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="30" height="30">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+        <svg viewBox="0 0 24 24" width="30" height="30">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+      </div>
+
+      <div class="hero-name" aria-label="César Morán">
+        <span class="hero-name-cesar">CÉSAR</span>
+        <span class="hero-name-amoran">MORÁN</span>
+      </div>
+
+      <div class="hero-badge">
+        <span class="label-banner">FULL STACK · AI SYSTEMS</span>
+      </div>
+    </div>
+
+    <div class="hero-scroll-cta" aria-hidden="true">
+      <span class="hero-scroll-label">SCROLL</span>
+      <svg class="scroll-arrow" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#FF3A00" stroke-width="2.5">
+        <path d="M12 5v14M5 14l7 7 7-7" />
+      </svg>
+    </div>
+
+    <svg
+      id="hero-crowd"
+      viewBox="0 0 1200 80"
+      preserveAspectRatio="xMidYMax slice"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <g id="crowd-figures" fill="#0A0A0A"></g>
+    </svg>
+  </section>
+
+  <section id="work">
+    <div class="section-inner">
+      <h1 class="section-heading dark-col reveal lang-text" data-es="PROYECTOS" data-en="PROJECTS">
+        PROYECTOS
+      </h1>
+
+      <div class="section-divider reveal">
+        <div class="divider-rule ink"></div>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+        <div class="divider-rule ink"></div>
+      </div>
+
+      <div class="projects-grid">
+        {featured.map((p) => <ProjectCard project={p} />)}
+      </div>
+
+      <a href="/proyectos" class="link-btn reveal lang-text" data-es="VER TODOS LOS PROYECTOS" data-en="VIEW ALL PROJECTS">
+        VER TODOS LOS PROYECTOS
+      </a>
+    </div>
+  </section>
+
+  <section id="experience" class="grain">
+    <div class="section-inner">
+      <h2 class="section-heading light reveal lang-text" data-es="TRAYECTORIA" data-en="FIELD RECORD">
+        TRAYECTORIA
+      </h2>
+
+      <div class="section-divider reveal">
+        <div class="divider-rule parch"></div>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+        <div class="divider-rule parch"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-year">26</div>
+          <div class="timeline-body">
+            <div class="timeline-role lang-text" data-es="DEVELOPER" data-en="DEVELOPER">DEVELOPER</div>
+            <div class="timeline-company">
+              DAIA · 2026–<span class="lang-text" data-es="HOY" data-en="NOW">HOY</span>
+            </div>
+            <div class="timeline-desc lang-text"
+              data-es="Agentes IA, automatización de procesos y CRM integration. Pipelines N8N + Vapi para clientes reales."
+              data-en="AI agents, process automation, CRM integration. N8N + Vapi pipelines for real clients.">
+              Agentes IA, automatización de procesos y CRM integration. Pipelines N8N + Vapi para clientes reales.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-year">25</div>
+          <div class="timeline-body">
+            <div class="timeline-role lang-text" data-es="SYSTEMS ANALYST" data-en="SYSTEMS ANALYST">
+              SYSTEMS ANALYST
+            </div>
+            <div class="timeline-company">
+              INFOSOFT CA · 2025–<span class="lang-text" data-es="HOY" data-en="NOW">HOY</span>
+            </div>
+            <div class="timeline-desc lang-text"
+              data-es="Diagnóstico de logs, Python/SQL, Rust. Reducción de errores críticos en producción."
+              data-en="Log diagnostics, Python/SQL, Rust. Critical production error reduction.">
+              Diagnóstico de logs, Python/SQL, Rust. Reducción de errores críticos en producción.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-year">22</div>
+          <div class="timeline-body">
+            <div class="timeline-role lang-text" data-es="FULL STACK DEV" data-en="FULL STACK DEV">
+              FULL STACK DEV
+            </div>
+            <div class="timeline-company">THE DIGITAL SOLUTIONS · 2022–2024</div>
+            <div class="timeline-desc lang-text"
+              data-es="Django, Spring Boot, Flask, Docker. Producto: Yummies Delivery — plataforma end-to-end."
+              data-en="Django, Spring Boot, Flask, Docker. Product: Yummies Delivery — end-to-end platform.">
+              Django, Spring Boot, Flask, Docker. Producto: Yummies Delivery — plataforma end-to-end.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="grain">
+    <div class="section-inner">
+      <div class="reveal" style="display:flex; flex-direction:column; align-items:flex-start;">
+        <div class="portrait-frame" style="width:100%;">
+          <div class="portrait-inner-border"></div>
+          <img class="portrait-svg" src="/profile.jpeg" alt="César Morán" style="object-fit: cover; aspect-ratio: 280/340;" />
+        </div>
+        <div class="portrait-label" style="width:100%">
+          <span class="label-banner dark" style="display:block; text-align:center; font-size:0.75rem; width:100%;">
+            CÉSAR MORÁN
+          </span>
+        </div>
+        <div style="width:100%; text-align:center;">
+          <span class="cert-badge">EF SET C1 · ENGLISH</span>
+        </div>
+      </div>
+
+      <div class="about-right">
+        <div class="about-section-label lang-text" data-es="SOBRE MÍ" data-en="ABOUT ME">SOBRE MÍ</div>
+
+        <div class="manifesto reveal">
+          <span class="manifesto-line lang-text" data-es="INGENIERO DE SISTEMAS." data-en="SYSTEMS ENGINEER.">
+            INGENIERO DE SISTEMAS.
+          </span>
+          <span class="manifesto-line lang-text" data-es="ARQUITECTO DE AGENTES." data-en="AGENT ARCHITECT.">
+            ARQUITECTO DE AGENTES.
+          </span>
+          <span class="manifesto-line lang-text" data-es="CONSTRUCTOR DE RESULTADOS." data-en="BUILDER OF RESULTS.">
+            CONSTRUCTOR DE RESULTADOS.
+          </span>
+        </div>
+
+        <div class="skills-label lang-text" data-es="ARSENAL TÉCNICO" data-en="TECHNICAL ARSENAL">
+          ARSENAL TÉCNICO
+        </div>
+        <div class="skills-grid reveal">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Django</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">N8N</span>
+          <span class="skill-tag">Vapi AI</span>
+          <span class="skill-tag">Botpress</span>
+          <span class="skill-tag">Spring Boot</span>
+          <span class="skill-tag">Rust</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">ExpressJS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog" class="grain">
+    <div class="section-inner" style="text-align: center;">
+      <div class="contact-headline reveal" style="margin-bottom: 24px;">
+        <span style="display: block; font-size: clamp(4rem, 15vw, 9rem);">BLOG</span>
+      </div>
+
+      <a href="/blog" class="link-btn reveal lang-text" data-es="IR AL BLOG" data-en="GO TO BLOG">
+        IR AL BLOG
+      </a>
+    </div>
+  </section>
+
+  <section id="contact" class="grain">
+    <div class="section-inner">
+      <div class="contact-eyebrow reveal">
+        <span class="label-banner lang-text" data-es="CONTACTO" data-en="CONTACT">CONTACTO</span>
+      </div>
+
+      <div class="contact-headline reveal">
+        <span class="lang-text" data-es="CONSTRUYAMOS" data-en="LET'S">CONSTRUYAMOS</span>
+        <span class="fire-line lang-text" data-es="ALGO." data-en="BUILD.">ALGO.</span>
+      </div>
+
+      <div class="contact-alt reveal">
+        <div class="contact-alt-item">
+          <span class="contact-alt-label">Email</span>
+          <a href="mailto:xcesamoranb@gmail.com" class="contact-alt-value">XCESAMORANB@GMAIL.COM</a>
+        </div>
+        <div class="contact-alt-item">
+          <span class="contact-alt-label">LinkedIn</span>
+          <a href="https://linkedin.com/in/cesaramoranb" target="_blank" rel="noopener" class="contact-alt-value">
+            /IN/CESARAMORANB
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="contact-form" novalidate>
+        <input type="hidden" name="access_key" value={web3FormsKey} />
+        <input type="hidden" name="subject" value="Nuevo mensaje desde el portfolio — César Morán" />
+        <input type="hidden" name="from_name" value="Portfolio César Morán" />
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true" />
+
+        <div class="form-group">
+          <label for="cname" class="lang-text" data-es="NOMBRE" data-en="NAME">NOMBRE</label>
+          <input type="text" id="cname" name="name" placeholder="JUAN PÉREZ" autocomplete="name" required />
+        </div>
+        <div class="form-group">
+          <label for="cemail">EMAIL</label>
+          <input type="email" id="cemail" name="email" placeholder="TU@EMAIL.COM" autocomplete="email" required />
+        </div>
+        <div class="form-group">
+          <label for="cmessage" class="lang-text" data-es="MENSAJE" data-en="MESSAGE">MENSAJE</label>
+          <textarea id="cmessage" name="message" rows="4" placeholder="TENGO UN PROYECTO..." required></textarea>
+        </div>
+
+        <div
+          id="form-feedback"
+          style="display:none; font-family:var(--font-utility); font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; padding:10px 0; text-align:center;"
+        ></div>
+
+        <button type="submit" class="submit-btn xray-target" id="submit-btn">
+          <span class="btn-base lang-text" data-es="ENVIAR MENSAJE" data-en="SEND MESSAGE">ENVIAR MENSAJE</span>
+        </button>
+      </form>
+    </div>
+  </section>
+</Layout>

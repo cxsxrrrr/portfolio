@@ -1,0 +1,94 @@
+---
+import type { Post } from '../data/blog';
+
+interface Props {
+  post: Post;
+  index: number;
+}
+
+const { post, index } = Astro.props;
+const num = String(index + 1).padStart(2, '0');
+---
+
+<article class="blog-card reveal">
+  <span class="blog-card-num" aria-hidden="true">{num}</span>
+  <time class="blog-card-date" datetime={post.date}>{post.date}</time>
+  <h2 class="blog-card-title lang-text" data-es={post.title.es} data-en={post.title.en}>
+    {post.title.es}
+  </h2>
+  <p class="blog-card-excerpt lang-text" data-es={post.excerpt.es} data-en={post.excerpt.en}>
+    {post.excerpt.es}
+  </p>
+  <a href={`/blog/${post.slug}`} class="blog-card-link lang-text" data-es="LEER MÁS" data-en="READ MORE">
+    LEER MÁS
+  </a>
+</article>
+
+<style>
+  .blog-card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    color: var(--ink);
+    transition: border-color 0.15s;
+  }
+  .blog-card:hover {
+    border-color: var(--fire);
+  }
+  .blog-card-num {
+    position: absolute;
+    top: -10px;
+    right: 8px;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: var(--fire);
+    opacity: 0.1;
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+  }
+  .blog-card-date {
+    display: block;
+    font-family: var(--font-utility);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--fire);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .blog-card-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .blog-card-excerpt {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+  .blog-card-link {
+    font-family: var(--font-utility);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    color: var(--fire);
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+    display: inline-block;
+  }
+  .blog-card-link.is-hovered {
+    background: var(--fire);
+    color: var(--parchment);
+  }
+</style>

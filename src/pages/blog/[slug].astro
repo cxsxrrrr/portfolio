@@ -1,0 +1,171 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { posts } from '../../data/blog';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: (typeof posts)[number];
+}
+
+const { post } = Astro.props;
+
+const siteUrl = 'https://cesaramoranb.web.app';
+const postUrl = `${siteUrl}/blog/${post.slug}`;
+
+const blogPostSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': `${postUrl}#article`,
+      headline: post.title.es,
+      alternativeHeadline: post.title.en,
+      description: post.excerpt.es,
+      datePublished: post.date,
+      dateModified: post.date,
+      url: postUrl,
+      inLanguage: 'es',
+      author: {
+        '@type': 'Person',
+        '@id': `${siteUrl}/#person`,
+        name: 'César Morán',
+        url: siteUrl,
+      },
+      publisher: {
+        '@type': 'Person',
+        '@id': `${siteUrl}/#person`,
+        name: 'César Morán',
+        url: siteUrl,
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': postUrl,
+      },
+      isPartOf: {
+        '@id': `${siteUrl}/#website`,
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${postUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Inicio',
+          item: siteUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: `${siteUrl}/blog`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: post.title.es,
+          item: postUrl,
+        },
+      ],
+    },
+  ],
+};
+---
+
+<Layout
+  title={`${post.title.es} — Blog César Morán`}
+  description={post.excerpt.es}
+  ogType="article"
+  canonicalPath={`/blog/${post.slug}`}
+  publishedDate={post.date}
+  keywords={`blog, ${post.title.es}, César Morán, full stack, AI, agentes IA, automatización, sistemas`}
+  schema={blogPostSchema}
+>
+  <article id="blog-post" class="grain" style="padding-top: 96px; padding-bottom: 80px;">
+    <div class="section-inner blog-post-inner">
+      <a href="/blog" class="blog-back-link lang-text" data-es="← VOLVER AL BLOG" data-en="← BACK TO BLOG">
+        ← VOLVER AL BLOG
+      </a>
+
+      <time class="blog-post-date" datetime={post.date}>{post.date}</time>
+      <h1 class="blog-post-title lang-text" data-es={post.title.es} data-en={post.title.en}>
+        {post.title.es}
+      </h1>
+
+      <div class="section-divider">
+        <div class="divider-rule parch"></div>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+        <div class="divider-rule parch"></div>
+      </div>
+
+      <div class="blog-post-content lang-text" data-es={post.content.es} data-en={post.content.en}>
+        {post.content.es}
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .blog-post-inner {
+    max-width: 720px;
+  }
+  .blog-back-link {
+    display: inline-block;
+    font-family: var(--font-utility);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    color: var(--fire);
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding: 4px 8px;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .blog-back-link.is-hovered {
+    background: var(--fire);
+    color: var(--parchment);
+  }
+  .blog-post-date {
+    display: block;
+    font-family: var(--font-utility);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--fire);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .blog-post-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 0.04em;
+    color: var(--parchment);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .blog-post-content {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--parchment);
+    white-space: pre-line;
+  }
+  .blog-post-content p {
+    margin-bottom: 1.2em;
+  }
+</style>

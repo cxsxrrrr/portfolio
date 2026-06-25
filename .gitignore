@@ -1,0 +1,32 @@
+# ─── Private / scratch files ───────────────────────────
+cesar_portfolio_planning.html
+sign.html
+firebase
+
+# ─── Build Output ──────────────────────────────────────
+dist/
+.astro/
+
+# ─── Dependencies ──────────────────────────────────────
+node_modules/
+
+# ─── Environment Variables (NEVER commit) ──────────────
+.env
+.env.local
+.env.*.local
+
+# ─── Firebase (project-specific config) ────────────────
+.firebaserc
+.firebase/
+
+# ─── Google Search Console verification ────────────────
+public/google*.html
+
+# ─── OS / Editor junk ──────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+
+# ─── IDE ───────────────────────────────────────────────
+.vscode/settings.json
+.idea/

@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+const siteUrl = 'https://cesaramoranb.web.app';
+
+const proyectosSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': `${siteUrl}/proyectos#webpage`,
+      url: `${siteUrl}/proyectos`,
+      name: 'Proyectos — César Morán',
+      description: 'Todos los proyectos de César Morán — agentes IA, automatizaciones, plataformas full stack y sistemas desplegados en producción.',
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      author: { '@id': `${siteUrl}/#person` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'Proyectos', item: `${siteUrl}/proyectos` },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Proyectos de César Morán',
+      itemListElement: projects.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: p.title,
+        ...(p.link && { url: p.link }),
+      })),
+    },
+  ],
+};
+---
+
+<Layout
+  title="Proyectos — César Morán | Full Stack & AI Engineer"
+  description="Todos los proyectos de César Morán — agentes IA con Vapi y N8N, chatbots con Botpress, plataformas full stack con React y Django, y sistemas en producción para clientes reales."
+  canonicalPath="/proyectos"
+  keywords="proyectos, portfolio, Vapi AI, N8N, Botpress, React, Django, agentes IA, automatización, full stack, César Morán"
+  schema={proyectosSchema}
+>
+  <section id="projects-page" class="grain" style="padding-top: 96px; padding-bottom: 64px;">
+    <div class="section-inner">
+      <h1 class="section-heading light reveal lang-text" data-es="PROYECTOS" data-en="PROJECTS">
+        PROYECTOS
+      </h1>
+
+      <div class="section-divider reveal">
+        <div class="divider-rule parch"></div>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+        <div class="divider-rule parch"></div>
+      </div>
+
+      <div class="projects-grid" style="color: var(--ink);">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+
+      {
+        projects.length === 0 && (
+          <div class="all-projects-empty lang-text" data-es="MÁS PROYECTOS EN CAMINO" data-en="MORE PROJECTS COMING SOON">
+            MÁS PROYECTOS EN CAMINO
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,76 @@
+---
+import type { Project, ProjectTag } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const multi = project.images.length > 1;
+---
+
+<article
+  class="project-card reveal"
+  tabindex={project.link ? undefined : 0}
+  aria-label={project.title}
+>
+  <span class="project-num-bg" aria-hidden="true">{project.num}</span>
+
+  <div class="project-img-wrapper">
+    {multi ? (
+      <div class="img-cycle-wrapper">
+        {project.images.map((img) => (
+          <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+        ))}
+      </div>
+    ) : (
+      <img src={project.images[0].src} alt={project.images[0].alt} loading="lazy" decoding="async" />
+    )}
+  </div>
+
+  <div class="project-card-body">
+    {
+      project.priority ? (
+        <div
+          class="project-num-label lang-text"
+          data-es={`${project.num} · PRIORIDAD ALTA`}
+          data-en={`${project.num} · HIGH PRIORITY`}
+        >
+          {`${project.num} · PRIORIDAD ALTA`}
+        </div>
+      ) : (
+        <div class="project-num-label">{project.num}</div>
+      )
+    }
+    <div class="project-title">{project.title}</div>
+    <div class="project-rule"></div>
+    <div class="project-tags">
+      {
+        project.tags.map((tag) =>
+          typeof tag === 'string' ? (
+            <span class="project-tag">{tag}</span>
+          ) : (
+            <span class="project-tag lang-text" data-es={tag.es} data-en={tag.en}>
+              {tag.es}
+            </span>
+          )
+        )
+      }
+    </div>
+  </div>
+
+  {project.link && (
+    <a
+      href={project.link}
+      target="_blank"
+      rel="noopener"
+      class="card-full-link"
+      aria-label={`Abrir ${project.title}`}
+    />
+  )}
+  {project.link && (
+    <div class="project-hover-label lang-text" data-es="VER PROYECTO" data-en="VIEW PROJECT">
+      VER PROYECTO
+    </div>
+  )}
+</article>

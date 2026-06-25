@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "site": "cesaramoranb",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [
+      { "source": "/proyectos", "destination": "/proyectos.html" },
+      { "source": "/proyectos/", "destination": "/proyectos.html" },
+      { "source": "/blog", "destination": "/blog.html" },
+      { "source": "/blog/", "destination": "/blog.html" },
+      { "source": "/blog/*", "destination": "/blog/$1.html" }
+    ]
+  }
+}

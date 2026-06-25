@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { posts } from '../data/blog';
+
+const siteUrl = 'https://cesaramoranb.web.app';
+
+const blogSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Blog',
+      '@id': `${siteUrl}/blog#blog`,
+      url: `${siteUrl}/blog`,
+      name: 'Blog — César Morán',
+      description: 'Blog de César Morán sobre agentes IA, automatización de procesos, arquitectura de sistemas, Python, Django, React y herramientas para desarrolladores.',
+      author: { '@id': `${siteUrl}/#person` },
+      inLanguage: 'es',
+      blogPost: posts.map((p) => ({
+        '@type': 'BlogPosting',
+        headline: p.title.es,
+        description: p.excerpt.es,
+        datePublished: p.date,
+        url: `${siteUrl}/blog/${p.slug}`,
+        author: { '@id': `${siteUrl}/#person` },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog` },
+      ],
+    },
+  ],
+};
+---
+
+<Layout
+  title="Blog — César Morán | Full Stack & AI Developer"
+  description="Blog de César Morán — casos de estudio de agentes IA en producción, arquitectura de sistemas, tutoriales de Python, Django, React, Rust, N8N y Vapi."
+  canonicalPath="/blog"
+  keywords="blog, agentes IA, automatización, Python, Django, React, Rust, N8N, Vapi, Botpress, arquitectura de sistemas, casos de estudio, César Morán"
+  schema={blogSchema}
+>
+  <section id="blog-page" class="grain" style="padding-top: 96px; padding-bottom: 80px;">
+    <div class="section-inner">
+      <h1 class="section-heading light reveal">BLOG</h1>
+
+      <div class="section-divider reveal">
+        <div class="divider-rule parch"></div>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill="#FF3A00"
+          />
+        </svg>
+        <div class="divider-rule parch"></div>
+      </div>
+
+      <div class="blog-grid">
+        {posts.map((post, i) => <BlogCard post={post} index={i} />)}
+      </div>
+
+      {
+        posts.length === 0 && (
+          <div class="blog-empty lang-text" data-es="TODAVÍA NO HAY POSTS" data-en="NO POSTS YET">
+            TODAVÍA NO HAY POSTS
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .blog-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .blog-empty {
+    border: 2px dashed rgba(245, 230, 200, 0.35);
+    padding: 28px;
+    text-align: center;
+    font-family: var(--font-utility);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    opacity: 0.55;
+  }
+</style>

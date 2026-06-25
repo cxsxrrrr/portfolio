@@ -1,0 +1,189 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: string;
+  ogImage?: string;
+  canonicalPath?: string;
+  publishedDate?: string;
+  keywords?: string;
+  noIndex?: boolean;
+  schema?: object;
+}
+
+const {
+  title = 'César Morán — Full Stack Developer & AI Systems Architect',
+  description = 'Portfolio de César Morán — Desarrollador Full Stack y Arquitecto de Agentes de IA. Especialista en Python, Django, React, N8N, Vapi, Botpress y automatización de procesos.',
+  ogType = 'website',
+  ogImage = '/og-image.jpg',
+  canonicalPath = Astro.url.pathname,
+  publishedDate,
+  keywords = 'full stack developer, AI systems architect, agentes IA, Python, Django, React, N8N, Vapi, Botpress, automatización, portfolio, César Morán, desarrollador Venezuela, developer portfolio',
+  noIndex = false,
+  schema,
+} = Astro.props;
+
+const siteUrl = 'https://cesaramoranb.web.app';
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+const fullTitle = title.includes('César Morán') ? title : `${title} | César Morán`;
+
+const defaultSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: 'César Morán',
+      alternateName: 'Cesar Amoran B',
+      url: siteUrl,
+      email: 'xcesamoranb@gmail.com',
+      sameAs: [
+        'https://linkedin.com/in/cesaramoranb',
+      ],
+      jobTitle: 'Full Stack Developer & AI Systems Architect',
+      description: 'Ingeniero de Sistemas especializado en agentes de IA, automatización de procesos y desarrollo full stack.',
+      knowsAbout: ['Python', 'Django', 'React', 'N8N', 'Vapi AI', 'Botpress', 'Docker', 'Rust', 'SQL', 'AI Agents', 'Automation'],
+      image: `${siteUrl}/profile.jpeg`,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: 'César Morán — Portfolio',
+      description: 'Portfolio profesional de César Morán, Full Stack Developer y Arquitecto de Agentes IA.',
+      author: { '@id': `${siteUrl}/#person` },
+      inLanguage: ['es', 'en'],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: fullTitle,
+      description,
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      ...(publishedDate && { datePublished: publishedDate }),
+    },
+  ],
+};
+
+const activeSchema = schema ?? defaultSchema;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ═══════════ PRIMARY META ═══════════ -->
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={keywords} />
+  <meta name="author" content="César Morán" />
+  <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- ═══════════ HREFLANG (bilingual) ═══════════ -->
+  <link rel="alternate" hreflang="es" href={canonicalUrl} />
+  <link rel="alternate" hreflang="en" href={canonicalUrl} />
+  <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
+  <!-- ═══════════ OPEN GRAPH ═══════════ -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:site_name" content="César Morán — Portfolio" />
+  <meta property="og:image" content={fullOgImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={`${fullTitle} — Preview`} />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  {publishedDate && <meta property="article:published_time" content={publishedDate} />}
+  {ogType === 'article' && <meta property="article:author" content="https://linkedin.com/in/cesaramoranb" />}
+
+  <!-- ═══════════ TWITTER CARDS ═══════════ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={fullOgImage} />
+  <meta name="twitter:image:alt" content={`${fullTitle} — Preview`} />
+  <meta name="twitter:creator" content="@cesaramoranb" />
+  <meta name="twitter:site" content="@cesaramoranb" />
+
+  <!-- ═══════════ FAVICON & THEME ═══════════ -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <meta name="theme-color" content="#FF3A00" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="msapplication-TileColor" content="#FF3A00" />
+
+  <!-- ═══════════ PERFORMANCE: DNS-prefetch ═══════════ -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- ═══════════ FONTS ═══════════ -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,500;0,700;1,400&family=Raleway:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- ═══════════ JSON-LD STRUCTURED DATA ═══════════ -->
+  <script type="application/ld+json" set:html={JSON.stringify(activeSchema)} />
+</head>
+<body>
+  <div id="cursor" aria-hidden="true"></div>
+
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-stamp" aria-label="César Morán — Inicio">
+      <svg viewBox="0 0 48 48" width="40" height="40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="44" height="44" fill="#FF3A00" />
+        <rect x="5" y="5" width="38" height="38" fill="none" stroke="#F5E6C8" stroke-width="1.2" />
+        <text x="24" y="33" font-family="'Bebas Neue', Impact" font-size="22" fill="#F5E6C8" text-anchor="middle" letter-spacing="1">CM</text>
+      </svg>
+    </a>
+
+    <div class="nav-links">
+      <a href="/#work" class="nav-link">WORK</a>
+      <a href="/proyectos" class="nav-link" data-nav="proyectos">PROYECTOS</a>
+      <a href="/#experience" class="nav-link lang-text" data-es="TRAYECTORIA" data-en="RECORD">TRAYECTORIA</a>
+      <a href="/#about" class="nav-link">ABOUT</a>
+      <a href="/blog" class="nav-link" data-nav="blog">BLOG</a>
+      <a href="/#contact" class="nav-link lang-text" data-es="CONTACTO" data-en="CONTACT">CONTACTO</a>
+    </div>
+
+    <div id="lang-toggle" role="group" aria-label="Language selector">
+      <button class="lang-btn active" id="btn-es" data-lang="es" aria-pressed="true">ES</button>
+      <button class="lang-btn" id="btn-en" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer id="footer" role="contentinfo">
+    <a href="/#hero" aria-label="Back to top" style="text-decoration:none;">
+      <svg viewBox="0 0 40 40" width="34" height="34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="38" height="38" fill="#FF3A00" />
+        <rect x="4" y="4" width="32" height="32" fill="none" stroke="#F5E6C8" stroke-width="1" />
+        <text x="20" y="27" font-family="'Bebas Neue', Impact" font-size="18" fill="#F5E6C8" text-anchor="middle" letter-spacing="1">CM</text>
+      </svg>
+    </a>
+    <span class="footer-copy">© 2026 CÉSAR MORÁN</span>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/cesaramoranb" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
+      <a href="mailto:xcesamoranb@gmail.com" class="footer-link">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    import { initSite } from '../scripts/main.ts';
+    initSite();
+  </script>
+</body>
+</html>
